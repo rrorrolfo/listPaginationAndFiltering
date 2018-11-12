@@ -2,7 +2,7 @@
 const page_container = document.querySelector(".page");
 const student_item = document.querySelectorAll(".student-item");
 
-
+// Function for displaying specific students
 const showPage = (list, start_list, end_list) => {
 
   // Loop for hidding all students
@@ -14,11 +14,6 @@ const showPage = (list, start_list, end_list) => {
   }
 }
 
-
-/*** 
-   Create the `appendPageLinks function` to generate, append, and add 
-   functionality to the pagination buttons.
-***/
 
 // Function for adding total pages
 
@@ -42,7 +37,29 @@ const appendPageLinks = total_students => {
   }
 
   //Output pages
+  ul.className = "pagination";
   ul.innerHTML = pages;
   page_container.appendChild(ul);
 
 }
+
+showPage(student_item, 0, 9);
+appendPageLinks(student_item);
+
+// Event listener for filtering the student displayed according to pagination
+
+const page_buttons = document.querySelector(".pagination");
+const page_buttons_max = document.querySelectorAll(".pagination li");
+
+// Event listener
+page_buttons.addEventListener("click", (event) => {
+
+  let a = parseInt(event.target.textContent);
+
+  if (a === page_buttons_max.length) {
+    showPage(student_item, (a -1) * 10, student_item.length - 1);
+  } else {
+    showPage(student_item, (a -1) * 10 , (a * 10) -1);
+  }
+
+});
