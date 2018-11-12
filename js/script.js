@@ -63,3 +63,51 @@ page_buttons.addEventListener("click", (event) => {
   }
 
 });
+
+// SEARCH FUNCTIONALITY
+
+// Display search bar
+const search_container = document.querySelector(".page-header");
+
+const search_bar = document.createElement("DIV");
+
+search_bar.innerHTML = `
+<input placeholder="Search for students...">
+<button>Search</button>
+`
+search_bar.className = "student-search";
+search_container.appendChild(search_bar);
+
+// Search functionality
+
+const student_to_search = document.querySelector(".student-search input");
+const search_button = document.querySelector(".student-search button");
+
+// Search function
+const searchFunction = () => {
+  
+  value_to_search = student_to_search.value.toUpperCase();
+  const name = document.querySelectorAll(".student-item h3");
+  const email = document.querySelectorAll(".student-item .email")
+  
+  for (let i = 0; i < student_item.length; i += 1) {
+      
+      if (name[i].textContent.toUpperCase().indexOf(value_to_search) > -1) {
+          student_item[i].style.display = "";
+      } else if (email[i].textContent.toUpperCase().indexOf(value_to_search) > -1) {
+        student_item[i].style.display = "";
+      } else {
+          student_item[i].style.display = "none";
+      }
+  }
+}
+
+// Event listener for keyup event
+student_to_search.addEventListener("keyup", () => {
+  searchFunction();
+});
+
+// Event listener for clicking search button
+search_button.addEventListener("click", () => {
+  searchFunction();
+});
