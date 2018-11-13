@@ -15,16 +15,29 @@ const showPage = (list, start_list, end_list) => {
 }
 
 
+
+
+// Funtion for creating pages container
+
+const pages_container = () => {
+  let div = document.createElement("DIV");
+
+  div.className = "pagination";
+  page_container.appendChild(div);
+}
+
+
 // Function for adding total pages
-
 const appendPageLinks = total_students => {
+  
+  const pagination_div = document.querySelector(".pagination");
 
-  // for obatining the amount of pages to create depending on amount of students
+  // for obtaining the amount of pages to create depending on amount of students
   let number_of_pages = Math.floor(total_students.length / 10);
 
   // UL to create and its content
-  let ul = document.createElement("UL");
-  let pages = "";
+  
+  let pages = "<ul>";
 
   //Loop for creating pages as list items
   for (let i = 0; i <= number_of_pages; i += 1) {
@@ -36,14 +49,17 @@ const appendPageLinks = total_students => {
     `
   }
 
-  //Output pages
-  ul.className = "pagination";
-  ul.innerHTML = pages;
-  page_container.appendChild(ul);
+  pages += "</ul>"
 
+  //Output pages
+  
+  pagination_div.innerHTML = pages;
+  
 }
 
+
 showPage(student_item, 0, 9);
+pages_container();
 appendPageLinks(student_item);
 
 // Event listener for filtering the student displayed according to pagination
@@ -54,14 +70,17 @@ const page_buttons_max = document.querySelectorAll(".pagination li");
 // Event listener
 page_buttons.addEventListener("click", (event) => {
 
-  let a = parseInt(event.target.textContent);
+  if(event.target.tagName === "A") {
 
-  if (a === page_buttons_max.length) {
-    showPage(student_item, (a -1) * 10, student_item.length - 1);
-  } else {
-    showPage(student_item, (a -1) * 10 , (a * 10) -1);
+    let a = parseInt(event.target.textContent);
+
+    if (a === page_buttons_max.length) {
+      showPage(student_item, (a -1) * 10, student_item.length - 1);
+    } else {
+      showPage(student_item, (a -1) * 10 , (a * 10) -1);
+    }
+
   }
-
 });
 
 // SEARCH FUNCTIONALITY
@@ -88,18 +107,26 @@ const searchFunction = () => {
   
   value_to_search = student_to_search.value.toUpperCase();
   const name = document.querySelectorAll(".student-item h3");
-  const email = document.querySelectorAll(".student-item .email")
+  const email = document.querySelectorAll(".student-item .email");
+  const search_results = [];
   
   for (let i = 0; i < student_item.length; i += 1) {
       
-      if (name[i].textContent.toUpperCase().indexOf(value_to_search) > -1) {
-          student_item[i].style.display = "";
-      } else if (email[i].textContent.toUpperCase().indexOf(value_to_search) > -1) {
-        student_item[i].style.display = "";
+      if (name[i].textContent.toUpperCase().indexOf(value_to_search) > -1 || email[i].textContent.toUpperCase().indexOf(value_to_search) > -1) {
+          student_item[i].style.display = "block"
+          search_results.push(student_item[i]);
+          
       } else {
           student_item[i].style.display = "none";
       }
   }
+
+  if (value_to_search === "" || value_to_search === null ) {
+    showPage(student_item, 0, 9);
+  }
+
+  appendPageLinks(search_results);
+
 }
 
 // Event listener for keyup event
