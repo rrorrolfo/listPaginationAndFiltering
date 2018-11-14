@@ -15,19 +15,17 @@ const showPage = (list, start_list, end_list) => {
 }
 
 
+//////////////// Funtion for creating pages container
 
-
-// Funtion for creating pages container
-
-const pages_container = () => {
+const pages_container = class_name => {
   let div = document.createElement("DIV");
 
-  div.className = "pagination";
+  div.className = class_name;
   page_container.appendChild(div);
 }
 
 
-// Function for adding total pages
+///////////////// Function for adding total pages
 const appendPageLinks = total_students => {
   
   const pagination_div = document.querySelector(".pagination");
@@ -57,9 +55,9 @@ const appendPageLinks = total_students => {
   
 }
 
-
+// Displays only first 10 students, and shows pages with 10 students each
 showPage(student_item, 0, 9);
-pages_container();
+pages_container("pagination");
 appendPageLinks(student_item);
 
 // Event listener for filtering the student displayed according to pagination
@@ -83,11 +81,9 @@ page_buttons.addEventListener("click", (event) => {
   }
 });
 
-// SEARCH FUNCTIONALITY
 
-// Display search bar
+///////////////////// Display search bar
 const search_container = document.querySelector(".page-header");
-
 const search_bar = document.createElement("DIV");
 
 search_bar.innerHTML = `
@@ -97,10 +93,11 @@ search_bar.innerHTML = `
 search_bar.className = "student-search";
 search_container.appendChild(search_bar);
 
-// Search functionality
+///////////////////7 Search functionality //////////////////////
 
 const student_to_search = document.querySelector(".student-search input");
 const search_button = document.querySelector(".student-search button");
+
 
 // Search function
 const searchFunction = () => {
@@ -108,25 +105,50 @@ const searchFunction = () => {
   value_to_search = student_to_search.value.toUpperCase();
   const name = document.querySelectorAll(".student-item h3");
   const email = document.querySelectorAll(".student-item .email");
+  const initial_list = document.querySelector(".student-list");
   const search_results = [];
+
+  // Hides initial display of students when search function is called
+  initial_list.style.display = "none"; 
   
+  // Adds matching results to array to be displayed
   for (let i = 0; i < student_item.length; i += 1) {
       
       if (name[i].textContent.toUpperCase().indexOf(value_to_search) > -1 || email[i].textContent.toUpperCase().indexOf(value_to_search) > -1) {
-          student_item[i].style.display = "block"
-          search_results.push(student_item[i]);
-          
-      } else {
-          student_item[i].style.display = "none";
+          search_results.push(student_item[i].innerHTML);
       }
+  
   }
+  
+  // Creates new UL for displaying search results
+  let ul = document.createElement("UL");
+  page_container.insertBefore(ul, page_buttons);
 
+  ul.className = "results-list";
+
+  // Resets content of search results UL for every search
+  const results_list = document.querySelector(".results-list");
+  results_list.innerHTML = "";
+
+  // Output search results array in UL 
+  const x = search_results.map( item => `<li class="student-item cf flag">${item}</li>`);
+  results_list.innerHTML = x.join("");
+
+  // Shows initial display
   if (value_to_search === "" || value_to_search === null ) {
+    results_list.style.display = "none";
+    initial_list.style.display = "block";
     showPage(student_item, 0, 9);
   }
 
+  // Creates amount of pages according to the results  (10 results per page)
   appendPageLinks(search_results);
 
+  const search_results_10 = document.querySelectorAll(".flag");
+  if (search_results_10.length >= 10) {
+    showPage(search_results_10, 0, 9);
+  } 
+  
 }
 
 // Event listener for keyup event
