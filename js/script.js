@@ -60,27 +60,6 @@ showPage(student_item, 0, 9);
 pages_container("pagination");
 appendPageLinks(student_item);
 
-// Event listener for filtering the student displayed according to pagination
-
-const page_buttons = document.querySelector(".pagination");
-const page_buttons_max = document.querySelectorAll(".pagination li");
-
-// Event listener
-page_buttons.addEventListener("click", (event) => {
-
-  if(event.target.tagName === "A") {
-
-    let a = parseInt(event.target.textContent);
-
-    if (a === page_buttons_max.length) {
-      showPage(student_item, (a -1) * 10, student_item.length - 1);
-    } else {
-      showPage(student_item, (a -1) * 10 , (a * 10) -1);
-    }
-
-  }
-});
-
 
 ///////////////////// Display search bar
 const search_container = document.querySelector(".page-header");
@@ -97,7 +76,7 @@ search_container.appendChild(search_bar);
 
 const student_to_search = document.querySelector(".student-search input");
 const search_button = document.querySelector(".student-search button");
-
+let flag_array = "";
 
 // Search function
 const searchFunction = () => {
@@ -120,6 +99,12 @@ const searchFunction = () => {
   
   }
   
+  
+  // Removes results list if it has been generated previously
+  if (document.querySelector(".results-list")) {
+    page_container.removeChild(document.querySelector(".results-list"))
+  }
+
   // Creates new UL for displaying search results
   let ul = document.createElement("UL");
   page_container.insertBefore(ul, page_buttons);
@@ -133,23 +118,60 @@ const searchFunction = () => {
   // Output search results array in UL 
   const x = search_results.map( item => `<li class="student-item cf flag">${item}</li>`);
   results_list.innerHTML = x.join("");
-
-  // Shows initial display
-  if (value_to_search === "" || value_to_search === null ) {
-    results_list.style.display = "none";
-    initial_list.style.display = "block";
-    showPage(student_item, 0, 9);
-  }
-
-  // Creates amount of pages according to the results  (10 results per page)
-  appendPageLinks(search_results);
-
+  
+  //Displays max 10 students if the results obtained are more that 10
   const search_results_10 = document.querySelectorAll(".flag");
   if (search_results_10.length >= 10) {
     showPage(search_results_10, 0, 9);
   } 
+
+  // Creates amount of pages according to the results  (10 results per page)
+  appendPageLinks(search_results);
+
+  page_buttons.className = "pagination pagination_searches"
   
+  // Shows initial display of 10 students when search value is empty
+  if (value_to_search === "" || value_to_search === null ) {
+    results_list.style.display = "none";
+    initial_list.style.display = "block";
+    showPage(student_item, 0, 9);
+    page_buttons.className = "pagination";
+  }
+
 }
+
+// Event listener for filtering the student displayed according to pagination
+
+const page_buttons = document.querySelector(".pagination");
+const page_buttons_max = document.querySelectorAll(".pagination li");
+
+// Event listener
+page_buttons.addEventListener("click", (event) => {
+
+  if(event.target.tagName === "A" && page_buttons.className === "pagination pagination_searches") {
+    
+    const flag_array = document.querySelectorAll(".flag");
+
+    let a = parseInt(event.target.textContent);
+
+    if (a === page_buttons_max.length) {
+      showPage(flag_array, (a -1) * 10, flag_array.length - 1);
+    } else {
+      showPage(flag_array, (a -1) * 10 , (a * 10) -1);
+    }
+  
+  } else if(event.target.tagName === "A" && page_buttons.className === "pagination") {
+
+    let a = parseInt(event.target.textContent);
+
+    if (a === page_buttons_max.length) {
+      showPage(student_item, (a -1) * 10, student_item.length - 1);
+    } else {
+      showPage(student_item, (a -1) * 10 , (a * 10) -1);
+    }
+
+  }
+});
 
 // Event listener for keyup event
 student_to_search.addEventListener("keyup", () => {
