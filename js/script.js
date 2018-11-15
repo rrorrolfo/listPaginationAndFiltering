@@ -10,7 +10,7 @@ const showPage = (list, start_list, end_list) => {
 
   // Loop for displaying selected students
   for ( let i = start_list; i <= end_list; i += 1 ) {
-    list[i].style.display = "block"
+    list[i].style.display = "block";
   }
 }
 
@@ -148,18 +148,21 @@ const page_buttons_max = document.querySelectorAll(".pagination li");
 // Event listener
 page_buttons.addEventListener("click", (event) => {
 
+  // For clicking pagination links after making a search
   if(event.target.tagName === "A" && page_buttons.className === "pagination pagination_searches") {
     
+    const page_buttons_max_searches = document.querySelectorAll(" .pagination_searches li");
     const flag_array = document.querySelectorAll(".flag");
 
     let a = parseInt(event.target.textContent);
 
-    if (a === page_buttons_max.length) {
+    if (a === page_buttons_max_searches.length) {
       showPage(flag_array, (a -1) * 10, flag_array.length - 1);
     } else {
       showPage(flag_array, (a -1) * 10 , (a * 10) -1);
     }
   
+    // For clicking pagination links from the original first list dispayed
   } else if(event.target.tagName === "A" && page_buttons.className === "pagination") {
 
     let a = parseInt(event.target.textContent);
