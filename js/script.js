@@ -102,7 +102,7 @@ const searchFunction = () => {
   
   // Removes results list if it has been generated previously
   if (document.querySelector(".results-list")) {
-    page_container.removeChild(document.querySelector(".results-list"))
+    page_container.removeChild(document.querySelector(".results-list"));
   }
 
   // Creates new UL for displaying search results
@@ -119,7 +119,7 @@ const searchFunction = () => {
   const x = search_results.map( item => `<li class="student-item cf flag">${item}</li>`);
   results_list.innerHTML = x.join("");
   
-  //Displays max 10 students if the results obtained are more that 10
+  //Displays max 10 students per page if the results obtained are more that 10
   const search_results_10 = document.querySelectorAll(".flag");
   if (search_results_10.length >= 10) {
     showPage(search_results_10, 0, 9);
@@ -129,6 +129,13 @@ const searchFunction = () => {
   appendPageLinks(search_results);
 
   page_buttons.className = "pagination pagination_searches"
+
+  // Displays notice when no results match the search
+
+  if (search_results.length === 0) {
+    results_list.innerHTML = `<p id="no_results_message">Your search does not match any student on our database.</p>`
+    document.querySelector(".pagination").innerHTML = "";
+  }
   
   // Shows initial display of 10 students when search value is empty
   if (value_to_search === "" || value_to_search === null ) {

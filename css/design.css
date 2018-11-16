@@ -95,6 +95,15 @@ body{
     border-bottom: none;
   }
 
+#no_results_message {
+  font-weight: bold;
+  color: #4ba6c3;
+  display: flex;
+  justify-content: space-around;
+  margin-top: 50px;
+  margin-bottom: 50px;
+}
+
 .pagination{
   margin: 40px 0 0 0;
   text-align: center;
