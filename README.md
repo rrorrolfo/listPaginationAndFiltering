@@ -7,7 +7,7 @@
 
 <h2 align="center">How to use</h2>
 
-<p>If Javacript is enabled, the user can write a name or email in the search box, the results matching the search term will be displayed, and if the results are more than 10, they will be paginated with 10 results maximum per page.</p> 
+<p>If Javacript is enabled, a list of items will be paginated with a maximum of 10 list items for each page. The user can write a name or email in the search box and the results matching the search term will be displayed, if the results are more than 10, they will be paginated, again,  with 10 results maximum per page. If JavaScript is disabled, the user will still be able to see all the list items.</p> 
 
 
 This is how the basic markup should look like for the list that will be paginated and used as a reference for the search functionality:
