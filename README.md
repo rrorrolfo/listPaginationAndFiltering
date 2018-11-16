@@ -32,11 +32,17 @@ This is how the basic markup should look like for the list that will be paginate
 ```
 The list to be paginated and used as a reference for the search functionality must be nested inside a container with a class of "page": `<div class="page">`
 
+<h4 align="center"> Pagination</h4>
+
 To enable pagination functionality, the list must have a class of "student-list": `<ul class="student-list">`
 
 For the list items to be paginated, each list item must have classes of "student-item cf": `<li class="student-item cf">`
 
-Searhbox input will be generated dnamically within the container with the classes "page-header cf": `<div class="page-header cf">`
+The pagination will be added dynamically according to the number of items that the initial list contains and later on, according to the number of results that the value or values to search in the search box generates.
+
+<h4 align="center">Search Functionality</h4>
+
+Searchbox input will be generated dnamically within the container with the classes "page-header cf": `<div class="page-header cf">`
 
 For enabling the search functionality, each list item must have the following minimum markup:
 
@@ -46,8 +52,7 @@ For enabling the search functionality, each list item must have the following mi
      <span class="email">email@example.com</span>
  </li>
 ```
-
-The pagination will be added dynamically according to the number of items that the initial list contains and later on, according to the number of results that the value or values to search in the search box generates.
+The search functionality will take the `.textContent` of the `<h3>` and the `<span class="email">` elements within the `<li class="student-item cf">`as a reference to match the value inserted in the searchbox.
 
 <h4 align="center">License<h4>
 
